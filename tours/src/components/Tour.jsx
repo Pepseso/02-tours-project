@@ -1,26 +1,32 @@
 import { useState } from 'react';
 
-const Tour = ({ tour }) => {
-  const [toggleInfo, setToggleInfo] = useState(false);
-  const { id, image, info, name, price } = tour;
+const Tour = ({ id, image, info, name, price, removeTour }) => {
+  const [readMore, setReadMore] = useState(false);
   return (
-    <div>
-      <h3>{name}</h3>
-      <img src={image} alt={name} style={{ width: '200px' }} />
-      <h4>Price : {price}</h4>
-      {toggleInfo ? (
-        <p>{info}</p>
-      ) : (
-        <button type='button' onClick={() => setToggleInfo(true)}>
-          Read more
+    <article className='single-tour'>
+      <img src={image} alt={name} className='img' />
+      <span className='tour-price'>${price}</span>
+      <div className='tour-info'>
+        <h5>{name}</h5>
+        <p>
+          {readMore ? info : `${info.substring(0, 200)}...`}
+          <button
+            type='button'
+            className='info-btn'
+            onClick={() => setReadMore(!readMore)}
+          >
+            {readMore ? 'Read less' : 'Read more'}
+          </button>
+        </p>
+        <button
+          type='button'
+          className='btn btn-block'
+          onClick={() => removeTour(id)}
+        >
+          not interested
         </button>
-      )}
-      {toggleInfo && (
-        <button type='button' onClick={() => setToggleInfo(false)}>
-          Hide info
-        </button>
-      )}
-    </div>
+      </div>
+    </article>
   );
 };
 export default Tour;
